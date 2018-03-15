@@ -21,7 +21,13 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String USER_AGENT = "Mozilla/5.0";
 	private String host = "http://192.168.1.109:8080", url="/serverAutobus/Provola";
-	String cod="";
+	private String cod="";
+	private String indirizzo="";
+	private String data="";
+	private String ora="";
+	private String type="";
+	
+	
 	JSONObject jsout = new JSONObject();
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,10 +52,10 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("prova servlet 2"); 
-		//String utente=(String) request.getSession().getAttribute("utente");
-		queryDB qb = new queryDB();
 		
+		// PRENDIAMO IL CODICE CHE ARRIVA DALL'APP
+		queryDB qb = new queryDB();
+	
 		StringBuilder sb = new StringBuilder();
 		BufferedReader reader = request.getReader();
 		try {
@@ -66,38 +72,42 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 	   
 		j= new JSONObject(sb.toString());
 		cod = j.getString("cod");
-		System.out.println("risultato servlet prova: "+cod );
+		indirizzo= j.getString("indirizzo");
+		data= j.getString("data");
+		ora= j.getString("ora");
+		type= j.getString("type");
+		
+		System.out.println("risultato servlet prova: "+cod+" "+data+" "+ora+" "+type);
 		}
 		catch (Exception e) {e.printStackTrace();
 			// TODO: handle exception
 		}
 		
+		
+		// QUERY: CERCHIAMO INDIRIZZO PARTENZA, DESTINAZIONE, DATA E ORA RIGUARDANTE QUEL CODICE
+		
+		
+		
+		
+		
+		// MANDIAMO I DATI AL SERVER AUTOBUS 
 		SecureRandom sec = new SecureRandom();
 		String urlemail="", codreg="";
-		
-		
-		urlemail = host+url+"?codregistrazione="+cod;
-		
-		System.out.println(urlemail);
-		
-		
-		
+		urlemail = host+url+"?cod="+cod;
 		URL obj = new URL(urlemail);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 		// optional default is GET
 		con.setRequestMethod("GET");
-
+		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
 		
 		
-		
+		// PRENDIAMO LA RISPOSTA DEL SERVER AUTOBUS CHE SI CHIAMA RESPONSE1
 		//System.out.println("\nSending 'GET' request to URL : " + url);
 		//System.out.println("Response Code : " + responseCode);
-
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(con.getInputStream()));
 		String inputLine;
@@ -108,6 +118,8 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 		}
 		in.close();
 
+		
+		//INVIAMO LA RISPOSTA ALL'APP 
 		//print result
 		System.out.println(response1.toString());
 		try {
