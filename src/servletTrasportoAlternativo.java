@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 @WebServlet("/servletTrasportoAlternativo")
@@ -20,6 +22,7 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 	private final String USER_AGENT = "Mozilla/5.0";
 	private String host = "http://192.168.1.109:8080", url="/serverAutobus/Provola";
 	String cod="";
+	JSONObject jsout = new JSONObject();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -44,7 +47,7 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("prova servlet 2"); 
-		String utente=(String) request.getSession().getAttribute("utente");
+		//String utente=(String) request.getSession().getAttribute("utente");
 		queryDB qb = new queryDB();
 		
 		StringBuilder sb = new StringBuilder();
@@ -107,14 +110,13 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 
 		//print result
 		System.out.println(response1.toString());
-		
-		response.getWriter().write(response1.toString());
-		
-		
-		
-		
-		
-		
+		try {
+			jsout.put("cod", response1.toString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response.getWriter().write(jsout.toString());
 		
 		
 		
