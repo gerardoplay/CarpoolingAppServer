@@ -1,7 +1,10 @@
+import java.io.IOException;
 import java.util.Timer;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+
+import org.json.JSONException;
 
 
 /**
@@ -24,6 +27,17 @@ public class ServetListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent arg0) {
         // TODO Auto-generated method stub
     	System.out.println("contextInitialized");
+    	transit tr=new transit();
+    	try {
+			tr.cacca();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("male male");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	Timer tim = new Timer();
     	refreshThread rT = new refreshThread();
     	
