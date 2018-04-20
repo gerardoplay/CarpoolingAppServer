@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class servletTrasportoAlternativo  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String USER_AGENT = "Mozilla/5.0";
-	private String host = "http://192.168.6.3:8080", url="/serverAutobus/Provola";
+	private String host = "http://192.168.1.109:8080", url="/serverAutobus/Provola";
 	private String cod="";
 	private String indirizzo="";
 	private String data="";

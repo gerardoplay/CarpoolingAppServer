@@ -19,7 +19,7 @@ import org.json.JSONObject;
 @WebServlet("/servletRegistrazione")
 public class servletRegistrazione extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String host = "http://192.168.1.102:8080", url="/provaServer/confermaRegistrazione";
+	private String host = "http://192.168.1.109:8080", url="/provaServer/confermaRegistrazione";
 
 	/**
 	 * @see HttpServlet#HttpServlet()

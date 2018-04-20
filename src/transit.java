@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -11,6 +12,11 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
 
 public class transit {
 	private final String USER_AGENT = "Mozilla/5.0";
@@ -32,7 +38,7 @@ public class transit {
 		
 		 //https://maps.googleapis.com/maps/api/directions/json?departure_time=now&destination=place_id%3AChIJp4QhcgzyGGARZaBIPuJzfpg&mode=TRANSIT&origin=place_id%3AChIJlyOpErWHGGAR0156e32g1Xs&key=API_KEY
 	
-			URL	obj = new URL("https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=Carpineto,+SA&destination=Fisciano+Universita,+Fisciano,+SA&mode=transit&key=AIzaSyBdpa0bBULmR-ILjQ8wF_FCJ3OLKRPnQB8");
+		URL	obj = new URL("https://maps.googleapis.com/maps/api/directions/json?departure_time=now&origin=Carpineto,+SA&destination=Fisciano+Universita,+Fisciano,+SA&mode=transit&key=AIzaSyBdpa0bBULmR-ILjQ8wF_FCJ3OLKRPnQB8");
 		
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -62,48 +68,17 @@ public class transit {
 		
 		
 		
-		
-		JSONObject objj = new JSONObject(response1.toString());
+		//JSONParser parser = new JSONParser();
+		JSONObject obbj = new JSONObject(response1.toString());
+		Long pageName = obbj.getJSONArray("routes").getJSONObject(0).getJSONObject("bounds").getJSONObject("northeast").getLong("lat");
+		System.out.println(pageName);
+         /*
+         for(int i=0;i<jsonArray.length();i++){
+          System.out.println("array is " + jsonArray.get(i));
 
-		List<String> list = new ArrayList<String>();
+         }
+         */
 		
-		JSONArray array1 = objj.getJSONArray("routes");
-		
-		JSONObject objj3 = array1.getJSONObject(0);
-		System.out.println("è lungo :"+objj3.length());
-		//System.out.println(objj3.toString());
-		JSONArray objj4 = objj3.getJSONArray("northeast");
-				
-		
-		//System.out.println(objj4.getString(0));
-		/*
-		JSONArray array2 = array1.getJSONArray("northeast");
-		
-		//JSONObject objj2 = objj.getJSONObject("routes");
-		JSONObject objj3 = objj2.getJSONObject("bounds");
-		
-		
-			JSONArray array1 = objj3.getJSONArray("northeast");
-		
-		    String[] lat = new String[array1.length()];
-		    String[] lng = new String[array1.length()];
-		    for(int i = 0 ; i < array1.length() ; i++) {
-		       // lat[i] = array1.getString("birthday");
-		       // lng[i] = array1.getString("name");
-		    }
-		
-		
-		*/
-		
-	
-		
-		
-		
-		
-		//System.out.println(list.get(0).toString());
-		
-		
-	
 		//System.out.println(response1.toString());
 		
 		}
