@@ -27,6 +27,8 @@ public class ServetListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent arg0) {
         // TODO Auto-generated method stub
     	System.out.println("contextInitialized");
+    	
+    	/*
     	transit tr=new transit();
     	try {
 			tr.cacca();
@@ -38,6 +40,7 @@ public class ServetListener implements ServletContextListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
     	Timer tim = new Timer();
     	refreshThread rT = new refreshThread();
     	

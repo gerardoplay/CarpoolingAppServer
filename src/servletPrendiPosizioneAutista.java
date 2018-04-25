@@ -4,17 +4,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
-
-public class servletPrendiPosizioneAutista {
+@WebServlet("/servletPrendiPosizioneAutista")
+public class servletPrendiPosizioneAutista  extends HttpServlet {
 	
     private String codPercorso="";
     private String nomeAutista="";
     private String lat="";
     private String lng="";
-    private String data="";
+    private String timeStamp="";
  
 	
 	
@@ -31,6 +33,9 @@ public class servletPrendiPosizioneAutista {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		//PRENDIAMO I DATI CHE ARRIVANO DALL'APP
+		
+		
+		System.out.println(this.getClass());
 		StringBuilder sb = new StringBuilder();
 		BufferedReader reader = request.getReader();
 		try {
@@ -50,12 +55,13 @@ public class servletPrendiPosizioneAutista {
 		nomeAutista = j.getString("codAutista");
 		lat= j.getString("lat");
 		lng= j.getString("lng");
-		//data e ora corrente 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//2016/11/16 12:08:43
-		Calendar cal = Calendar.getInstance();
-		data=dateFormat.format(cal);
 		
-		System.out.println("risultato servlet prova: "+codPercorso+" "+ nomeAutista+" "+lat+" "+lng+" "+" "+data);
+		
+		//data e ora corrente 
+		
+		timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+		System.out.println(timeStamp);
+		System.out.println("risultato servlet prova: "+codPercorso+" "+ nomeAutista+" "+lat+" "+lng+" "+" "+timeStamp);
 		}
 		catch (Exception e) {e.printStackTrace();
 			// TODO: handle exception
@@ -65,10 +71,11 @@ public class servletPrendiPosizioneAutista {
 		
 		updateDB ub = new updateDB();
 		
-	    ub.inserimento("UPDATE percorso SET latAutista=" + lat + "WHERE" + "cod=" + codPercorso + "and nomeutente="+ nomeAutista);
-	    ub.inserimento("UPDATE percorso SET lngAutista=" + lng + "WHERE" + "cod=" + codPercorso + "and nomeutente="+ nomeAutista);
-	    ub.inserimento("UPDATE percorso SET ultimaModificaPosizione=" + data + "WHERE" + "cod=" + codPercorso + "and nomeutente="+ nomeAutista);
+	    ub.inserimento("UPDATE percorso SET latAutista=" + lat + " WHERE " + "cod=" + codPercorso + " and nomeutente="+"'"+ nomeAutista+"'");
+	    ub.inserimento("UPDATE percorso SET lngAutista=" + lng + " WHERE " + "cod=" + codPercorso + " and nomeutente="+"'"+ nomeAutista+"'");
+	    ub.inserimento("UPDATE percorso SET ultimaModificaPosizione=" +"'"+ timeStamp+"'" + " WHERE " + "cod=" + codPercorso + " and nomeutente="+"'"+ nomeAutista+"'");
 		
+	    
 	}
 
 }

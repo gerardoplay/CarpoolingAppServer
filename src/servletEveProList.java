@@ -91,16 +91,20 @@ public class servletEveProList extends HttpServlet {
 				while(rs.next()){
 					GregorianCalendar gc = new GregorianCalendar();
 					String codp = rs.getString("codpercorso");
+					System.out.println(codp);
 					//System.out.println(codp);
 					rsdata= db.query("select data, orario from percorso where cod='"+codp+"'");
 					rsdata.next();
+					//System.out.println(rsdata.getString("orario"));
 					String  dateper = rsdata.getString("data"),
+							
 							orarioper = rsdata.getString("orario");
 
 					
 					GregorianCalendar gcper = new GregorianCalendar(Integer.parseInt(dateper.substring(6,10)),
 							Integer.parseInt(dateper.substring(3,5))-1, 
 							Integer.parseInt(dateper.substring(0, 2)));
+					
 					//System.out.println(gc.get(GregorianCalendar.DAY_OF_MONTH)+"  "+gcper.get(GregorianCalendar.DAY_OF_MONTH));
 					if(gc.compareTo(gcper)<=0){
 						ricindirizzo.put(rs.getString("indirizzo"));
@@ -108,7 +112,9 @@ public class servletEveProList extends HttpServlet {
 						ricorario.put(orarioper);
 						//ric.put(dateper+": "+rs.getString("indirizzo"));
 						riccod.put(rs.getInt("cod"));
+						
 					}
+				
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
