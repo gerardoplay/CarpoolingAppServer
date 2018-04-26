@@ -3,13 +3,15 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-public class servletInvioPosizioneAutista {
+@WebServlet("/servletInvioPosizioneAutista")
+public class servletInvioPosizioneAutista  extends HttpServlet {
 
 	 private String codPercorso="";
 	    private String nomeAutista="";
@@ -31,7 +33,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		System.out.println(this.getClass());
 		//PRENDIAMO I DATI CHE ARRIVANO DALL'APP
 		StringBuilder sb = new StringBuilder();
 		BufferedReader reader = request.getReader();
@@ -48,7 +50,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 		try {
 	   
 		j= new JSONObject(sb.toString());
-		codPercorso = j.getString("codPercorso");
+		codPercorso = j.getString("percodice");
 		nomeAutista = j.getString("codAutista");
 		System.out.println("risultato servlet prova: "+ nomeAutista+" "+codPercorso);
 		
@@ -62,7 +64,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 		queryDB db = new queryDB();
 		ResultSet rs;
 		try {
-			rs = db.query("SELECT latAutista, lngAutista, ultimaModificaPosizione from percorso where cod="+ codPercorso+" nomeutente="+ nomeAutista+";");         
+			rs = db.query("SELECT latAutista, lngAutista, ultimaModificaPosizione from percorso where cod="+ codPercorso +" and nomeutente="+"'"+ nomeAutista+"'");         
 			rs.next();
 			lat=rs.getString("latAutista");
 			lng=rs.getString("lngAutista");
