@@ -57,6 +57,8 @@ public class servletEveProList extends HttpServlet {
 			JSONArray percod = new JSONArray();
 			JSONArray perautista = new JSONArray();
 			JSONArray jscoddd = new JSONArray();
+			JSONArray jsperautista2 = new JSONArray();
+
 		//	JSONArray perstato = new JSONArray();
 			
 			JSONArray ricindirizzo = new JSONArray();	
@@ -72,21 +74,22 @@ public class servletEveProList extends HttpServlet {
 				rs1 = db.query("select * from percorso where nomeutente ='"+utente+"'");
 				while(rs1.next()){
 					//System.out.println(rs.getString("indirizzo"));
-
+                    
 					GregorianCalendar gc = new GregorianCalendar();
 					String dateper = rs1.getString("data");
 
 					GregorianCalendar gcper = new GregorianCalendar(Integer.parseInt(dateper.substring(6,10)),
 							Integer.parseInt(dateper.substring(3,5))-1, 
 							Integer.parseInt(dateper.substring(0, 2)));
-				//	System.out.println(gc.get(GregorianCalendar.MONTH)+"  "+gcper.get(GregorianCalendar.MONTH));
-
+					//System.out.println(gc.get(GregorianCalendar.MONTH)+"  "+gcper.get(GregorianCalendar.MONTH));
+					
 					if(gc.compareTo(gcper)<=0){
 						perindirizzo.put(rs1.getString("indirizzopart"));
 						perdata.put(rs1.getString("data"));
 						perorario.put(rs1.getString("orario"));
 						//per.put(rs1.getString("data")+": "+rs1.getString("indirizzopart"));
 						percod.put(rs1.getInt("cod"));
+						jsperautista2.put(rs1.getString("nomeutente"));
 						
 					}
 				}
@@ -94,7 +97,6 @@ public class servletEveProList extends HttpServlet {
 				while(rs.next()){
 					GregorianCalendar gc = new GregorianCalendar();
 					String codp = rs.getString("codpercorso");
-					System.out.println(codp);
 					//System.out.println(codp);
 					rsdata= db.query("select data,nomeutente,cod, orario from percorso where cod='"+codp+"'");
 					rsdata.next();
@@ -132,13 +134,12 @@ public class servletEveProList extends HttpServlet {
 				js.put("percodici", percod);
 				js.put("perdata", perdata);				
 				js.put("perorario", perorario);
+				js.put("perautista",jsperautista2);
+				
+				
+				
 				js.put("autista", perautista);
 				js.put("coddd", jscoddd);
-				
-				
-				
-				
-				
 				js.put("ricindirizzo", ricindirizzo);
 				js.put("riccodici", riccod);
 				js.put("ricdata", ricdata);

@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 @WebServlet("/servletInvioPosizioneAutista")
 public class servletInvioPosizioneAutista  extends HttpServlet {
 
-	 private String codPercorso="";
+	private static final long serialVersionUID = 1L;
+	private String codPercorso="";
 	    private String nomeAutista="";
 	    private String lat="";
 	    private String lng="";

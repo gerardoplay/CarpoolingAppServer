@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.servlet.ServletException;
@@ -12,6 +11,7 @@ import org.json.JSONObject;
 @WebServlet("/servletPrendiPosizioneAutista")
 public class servletPrendiPosizioneAutista  extends HttpServlet {
 	
+	private static final long serialVersionUID = 1L;
     private String codPercorso="";
     private String nomeAutista="";
     private String lat="";
