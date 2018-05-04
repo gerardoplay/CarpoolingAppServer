@@ -32,7 +32,7 @@ public class refreshThread extends TimerTask{
 				String utente = rs.getString("nomeutente");
 				String cod = rs.getString("cod");
 				String dateper = rs.getString("data");
-
+//System.out.println("la data è"+dateper);
 				GregorianCalendar gcper = new GregorianCalendar(Integer.parseInt(dateper.substring(6,10)),
 						Integer.parseInt(dateper.substring(3,5))-1, 
 						Integer.parseInt(dateper.substring(0, 2)));
