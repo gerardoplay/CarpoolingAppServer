@@ -66,6 +66,9 @@ public class servletEveProList extends HttpServlet {
 			JSONArray ricorario = new JSONArray();
 			JSONArray riccod = new JSONArray();
 		//	JSONArray ricstato = new JSONArray();
+			JSONArray ar = new JSONArray();
+			JSONArray indlat = new JSONArray();
+			JSONArray indlon = new JSONArray();
 
 			JSONObject js = new JSONObject();
 
@@ -90,6 +93,7 @@ public class servletEveProList extends HttpServlet {
 						//per.put(rs1.getString("data")+": "+rs1.getString("indirizzopart"));
 						percod.put(rs1.getInt("cod"));
 						jsperautista2.put(rs1.getString("nomeutente"));
+						ar.put(rs1.getInt("ar"));
 						
 					}
 				}
@@ -119,7 +123,8 @@ public class servletEveProList extends HttpServlet {
 						jscoddd.put(coddd);
 						//ric.put(dateper+": "+rs.getString("indirizzo"));
 						riccod.put(rs.getInt("cod"));
-						
+						indlat.put(rs.getDouble("indlat"));
+						indlon.put(rs.getDouble("indlon"));
 					}
 				
 				}
@@ -144,6 +149,9 @@ public class servletEveProList extends HttpServlet {
 				js.put("riccodici", riccod);
 				js.put("ricdata", ricdata);
 				js.put("ricorario", ricorario);
+				js.put("ar", ar);
+				js.put("indlat",indlat);
+				js.put("indlon",indlon);
 				
 				
 			//	js.put("statoper", statoper);
