@@ -66,7 +66,7 @@ public class servletEveProList extends HttpServlet {
 			JSONArray ricorario = new JSONArray();
 			JSONArray riccod = new JSONArray();
 		//	JSONArray ricstato = new JSONArray();
-			JSONArray ar = new JSONArray();
+			JSONArray andRit = new JSONArray();
 			JSONArray indlat = new JSONArray();
 			JSONArray indlon = new JSONArray();
 
@@ -93,7 +93,6 @@ public class servletEveProList extends HttpServlet {
 						//per.put(rs1.getString("data")+": "+rs1.getString("indirizzopart"));
 						percod.put(rs1.getInt("cod"));
 						jsperautista2.put(rs1.getString("nomeutente"));
-						ar.put(rs1.getInt("ar"));
 						
 					}
 				}
@@ -102,13 +101,14 @@ public class servletEveProList extends HttpServlet {
 					GregorianCalendar gc = new GregorianCalendar();
 					String codp = rs.getString("codpercorso");
 					//System.out.println(codp);
-					rsdata= db.query("select data,nomeutente,cod, orario from percorso where cod='"+codp+"'");
+					rsdata= db.query("select data,nomeutente,cod, orario, ar from percorso where cod='"+codp+"'");
 					rsdata.next();
 					//System.out.println(rsdata.getString("orario"));
 					String  dateper = rsdata.getString("data"),
 							orarioper = rsdata.getString("orario"),
 					        autista=rsdata.getString("nomeutente"),
-                            coddd=rsdata.getString("cod");
+                            coddd=rsdata.getString("cod"),
+                            ar=rsdata.getString("ar");
 					
 					GregorianCalendar gcper = new GregorianCalendar(Integer.parseInt(dateper.substring(6,10)),
 							Integer.parseInt(dateper.substring(3,5))-1, 
@@ -125,6 +125,7 @@ public class servletEveProList extends HttpServlet {
 						riccod.put(rs.getInt("cod"));
 						indlat.put(rs.getDouble("indlat"));
 						indlon.put(rs.getDouble("indlon"));
+						andRit.put(ar);
 					}
 				
 				}
@@ -149,7 +150,7 @@ public class servletEveProList extends HttpServlet {
 				js.put("riccodici", riccod);
 				js.put("ricdata", ricdata);
 				js.put("ricorario", ricorario);
-				js.put("ar", ar);
+				js.put("ar", andRit);
 				js.put("indlat",indlat);
 				js.put("indlon",indlon);
 				

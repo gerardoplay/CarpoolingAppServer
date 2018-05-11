@@ -81,15 +81,25 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 		//ADESSO INVIAMO I DATI ALL'APP
 		System.out.println("risultati query: "+ lat+ " "+ lng+" "+ data);
 		try {
+			System.out.println("gggggggggg");
+			if(lat!=null) {
 			jsout.put("lat", lat.toString());
 			jsout.put("lng", lng.toString());
 			jsout.put("data", data.toString());
+			}
+			else {
+				jsout.put("lat", 0);
+				jsout.put("lng", 0);
+				jsout.put("data", 0);
+			}
 			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		response.getWriter().write(jsout.toString());
+		
 		
 	}
 	}
