@@ -58,7 +58,7 @@ public class servletAnnullaPercorso extends HttpServlet implements Servlet {
 			String utente = request.getSession().getAttribute("utente").toString();
 			String cod = 	j.getString("cod");
 			updateDB qdb = new updateDB();
-			qdb.inserimento("delete from percorso where cod='"+cod+"' and nomeutente='"+utente+"'");
+			qdb.inserimento ("UPDATE percorso SET stato='annullato' WHERE cod='"+cod+"' and nomeutente='"+utente+"'");
 			JSONObject jj = new JSONObject();
 			jj.put("contr", 3);
 
