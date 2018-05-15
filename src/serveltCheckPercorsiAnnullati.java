@@ -26,8 +26,9 @@ import org.json.JSONException;
 		private String partenza ="";
 		private String destinazione ="";
 		private String data ="";
-		
-		
+		private String ar ="";
+		private String indlat="";
+		private String indlon="";
 		
 		JSONObject js = new JSONObject();
 
@@ -82,17 +83,23 @@ import org.json.JSONException;
 			}
 			
 			
-			ResultSet rs;
+			ResultSet rs,rs2;
 			
 			try {
 				rs=qb.query("select * from percorso where cod in (select codpercorso from richiesta where nomeutenterichiedente= '"+ username +"') and  stato = 'annullato'");
+				
 				//select * from carpooling.percorso where cod in(select codpercorso from carpooling.richiesta where nomeutenterichiedente='b') and stato = 'annullato' 
-				rs.next();
+				 rs.next();
 				 cod=rs.getString("cod");
 				 partenza=rs.getString("indirizzopart");
 				 destinazione=rs.getString("indirizzodest");
 				 data=rs.getString("data");
+				 ar=rs.getString("ar");
 				
+				 rs2 = qb.query("select * from richiesta where nomeutenterichiedente='"+username+"' and codpercorso='"+cod.toString()+"'");
+				 rs2.next();
+				 indlat=rs2.getString("indlat");
+				 indlon=rs2.getString("indlon");
 			//System.out.println("il percorso annullato è cod:"+cod+" da "+ partenza+"in data "+data);
 			}
 			 catch (SQLException e) {
@@ -106,8 +113,10 @@ import org.json.JSONException;
 				    js.put("partenza", partenza.toString());
 					js.put("destinazione", destinazione.toString());
 					js.put("data", data.toString());
-					js.put("cod", cod).toString();
-					
+					js.put("cod", cod.toString());
+					js.put("ar", ar.toString());
+					js.put("indlat", indlat.toString());
+					js.put("indlon", indlon.toString());
 			}
 			 catch (JSONException e) {
 				// TODO Auto-generated catch block
