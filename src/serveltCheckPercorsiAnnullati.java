@@ -26,11 +26,7 @@ import org.json.JSONException;
 		private String partenza ="";
 		private String destinazione ="";
 		private String data ="";
-		JSONArray jscod = new JSONArray();
-		JSONArray jsdata = new JSONArray();
-		JSONArray jspartenza = new JSONArray();
-		JSONArray jsdestinazione = new JSONArray();
-		JSONObject jsout = new JSONObject();
+		
 		
 		
 		JSONObject js = new JSONObject();
@@ -79,7 +75,7 @@ import org.json.JSONException;
 			j= new JSONObject(sb.toString());
 			username = j.getString("user");
 			
-			System.out.println("risultato servlet prova: "+username);
+			//System.out.println("risultato servlet prova: "+username);
 			}
 			catch (Exception e) {e.printStackTrace();
 				// TODO: handle exception
@@ -92,26 +88,33 @@ import org.json.JSONException;
 				rs=qb.query("select * from percorso where cod in (select codpercorso from richiesta where nomeutenterichiedente= '"+ username +"') and  stato = 'annullato'");
 				//select * from carpooling.percorso where cod in(select codpercorso from carpooling.richiesta where nomeutenterichiedente='b') and stato = 'annullato' 
 				rs.next();
-				jscod.put(rs.getInt("cod"));
-				 jspartenza.put(rs.getString("indirizzopart"));
-				 jsdestinazione.put(rs.getString("indirizzodest"));
-				 jsdata.put(rs.getString("data"));
+				 cod=rs.getString("cod");
+				 partenza=rs.getString("indirizzopart");
+				 destinazione=rs.getString("indirizzodest");
+				 data=rs.getString("data");
+				
 			//System.out.println("il percorso annullato è cod:"+cod+" da "+ partenza+"in data "+data);
+			}
+			 catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
-				 
-				    js.put("partenza", jspartenza);
-					js.put("destinazione", jsdestinazione);
-					js.put("data", jsdata);
-					js.put("cod", jscod);
-					response.getWriter().write(js.toString());
-				 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
+
+			try {
+				
+				    js.put("partenza", partenza.toString());
+					js.put("destinazione", destinazione.toString());
+					js.put("data", data.toString());
+					js.put("cod", cod).toString();
+					
+			}
+			 catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			response.getWriter().write(js.toString());
+			
 		}
 
 	}
