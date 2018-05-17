@@ -58,8 +58,8 @@ public class servletEveProList extends HttpServlet {
 			JSONArray perautista = new JSONArray();
 			JSONArray jscoddd = new JSONArray();
 			JSONArray jsperautista2 = new JSONArray();
-
-		//	JSONArray perstato = new JSONArray();
+            JSONArray jsperstato = new JSONArray();
+            JSONArray jsperstato2 = new JSONArray();
 			
 			JSONArray ricindirizzo = new JSONArray();	
 			JSONArray ricdata = new JSONArray();
@@ -93,7 +93,7 @@ public class servletEveProList extends HttpServlet {
 						//per.put(rs1.getString("data")+": "+rs1.getString("indirizzopart"));
 						percod.put(rs1.getInt("cod"));
 						jsperautista2.put(rs1.getString("nomeutente"));
-						
+						jsperstato2.put(rs1.getString("stato"));
 					}
 				}
 				ResultSet rsdata;
@@ -101,14 +101,15 @@ public class servletEveProList extends HttpServlet {
 					GregorianCalendar gc = new GregorianCalendar();
 					String codp = rs.getString("codpercorso");
 					//System.out.println(codp);
-					rsdata= db.query("select data,nomeutente,cod, orario, ar from percorso where cod='"+codp+"'");
+					rsdata= db.query("select data,nomeutente,cod, orario, ar,stato from percorso where cod='"+codp+"'");
 					rsdata.next();
 					//System.out.println(rsdata.getString("orario"));
 					String  dateper = rsdata.getString("data"),
 							orarioper = rsdata.getString("orario"),
 					        autista=rsdata.getString("nomeutente"),
                             coddd=rsdata.getString("cod"),
-                            ar=rsdata.getString("ar");
+                            ar=rsdata.getString("ar"),
+					        stato=rsdata.getString("stato");
 					
 					GregorianCalendar gcper = new GregorianCalendar(Integer.parseInt(dateper.substring(6,10)),
 							Integer.parseInt(dateper.substring(3,5))-1, 
@@ -126,6 +127,7 @@ public class servletEveProList extends HttpServlet {
 						indlat.put(rs.getDouble("indlat"));
 						indlon.put(rs.getDouble("indlon"));
 						andRit.put(ar);
+						jsperstato.put(stato);
 					}
 				
 				}
@@ -141,6 +143,8 @@ public class servletEveProList extends HttpServlet {
 				js.put("perdata", perdata);				
 				js.put("perorario", perorario);
 				js.put("perautista",jsperautista2);
+				js.put("perstato",jsperstato);
+				js.put("perstato2",jsperstato2);
 				
 				
 				

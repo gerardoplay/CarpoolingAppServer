@@ -21,16 +21,7 @@ import org.json.JSONException;
 	public class serveltCheckPercorsiAnnullati  extends HttpServlet {
 		private static final long serialVersionUID = 1L;
 		private final String USER_AGENT = "Mozilla/5.0";
-		private String cod="";
 		private String username="";	
-		private String partenza ="";
-		private String destinazione ="";
-		private String data ="";
-		private String ar ="";
-		private String indlat="";
-		private String indlon="";
-		
-		JSONObject js = new JSONObject();
 
 	    /**
 	     * @see HttpServlet#HttpServlet()
@@ -54,8 +45,21 @@ import org.json.JSONException;
 		 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 		 */
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			// TODO Auto-generated method stub
+			
+			
 			System.out.println(this.getClass());
+			
+			JSONArray jscod = new JSONArray();
+			JSONArray jsdata = new JSONArray();
+			JSONArray jspartenza = new JSONArray();
+			JSONArray jsdestinazione = new JSONArray();
+			JSONArray jsar = new JSONArray();
+			JSONArray jsindlat = new JSONArray();
+			JSONArray jsindlon= new JSONArray();
+			
+			JSONObject js = new JSONObject();
+			
+			
 			// PRENDIAMO IL CODICE CHE ARRIVA DALL'APP
 			queryDB qb = new queryDB();
 		
@@ -89,17 +93,18 @@ import org.json.JSONException;
 				rs=qb.query("select * from percorso where cod in (select codpercorso from richiesta where nomeutenterichiedente= '"+ username +"') and  stato = 'annullato'");
 				
 				//select * from carpooling.percorso where cod in(select codpercorso from carpooling.richiesta where nomeutenterichiedente='b') and stato = 'annullato' 
-				 rs.next();
-				 cod=rs.getString("cod");
-				 partenza=rs.getString("indirizzopart");
-				 destinazione=rs.getString("indirizzodest");
-				 data=rs.getString("data");
-				 ar=rs.getString("ar");
-				
-				 rs2 = qb.query("select * from richiesta where nomeutenterichiedente='"+username+"' and codpercorso='"+cod.toString()+"'");
-				 rs2.next();
-				 indlat=rs2.getString("indlat");
-				 indlon=rs2.getString("indlon");
+				 while(rs.next()) {
+				 jscod.put(rs.getString("cod"));
+				 jspartenza.put(rs.getString("indirizzopart"));
+				 jsdestinazione.put(rs.getString("indirizzodest"));
+				 jsdata.put(rs.getString("data"));
+				 jsar.put(rs.getString("ar"));
+				 rs2 = qb.query("select * from richiesta where nomeutenterichiedente='"+username+"' and codpercorso='"+rs.getString("cod")+"'");
+				 while(rs2.next()) {
+				 jsindlat.put(rs2.getString("indlat"));
+				 jsindlon.put(rs2.getString("indlon"));
+				 }
+				 }
 			//System.out.println("il percorso annullato è cod:"+cod+" da "+ partenza+"in data "+data);
 			}
 			 catch (SQLException e) {
@@ -109,21 +114,24 @@ import org.json.JSONException;
 			
 
 			try {
+			       
+				    js.put("partenza", jspartenza);
+					js.put("destinazione", jsdestinazione);
+					js.put("data", jsdata);
+					js.put("cod", jscod);
+					js.put("ar", jsar);
+					js.put("indlat", jsindlat);
+					js.put("indlon", jsindlon);
 				
-				    js.put("partenza", partenza.toString());
-					js.put("destinazione", destinazione.toString());
-					js.put("data", data.toString());
-					js.put("cod", cod.toString());
-					js.put("ar", ar.toString());
-					js.put("indlat", indlat.toString());
-					js.put("indlon", indlon.toString());
 			}
+		
+			
 			 catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			response.getWriter().write(js.toString());
-			
+		
 		}
 
 	}
