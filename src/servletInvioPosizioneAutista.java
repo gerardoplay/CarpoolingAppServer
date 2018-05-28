@@ -54,7 +54,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 		j= new JSONObject(sb.toString());
 		codPercorso = j.getString("percodice");
 		nomeAutista = j.getString("codAutista");
-		System.out.println("risultato servlet prova: "+ nomeAutista+" "+codPercorso);
+		//System.out.println("risultato servlet prova: "+ nomeAutista+" "+codPercorso);
 		
 		}
 		catch (Exception e) {e.printStackTrace();
@@ -79,7 +79,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	
 		
 		//ADESSO INVIAMO I DATI ALL'APP
-		System.out.println("risultati query: "+ lat+ " "+ lng+" "+ data);
+	//	System.out.println("risultati query: "+ lat+ " "+ lng+" "+ data);
 		try {
 			if(lat!=null) {
 			jsout.put("lat", lat.toString());

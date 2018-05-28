@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,12 +18,16 @@ import org.json.JSONObject;
 public class servletTrasportoAlternativo  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String USER_AGENT = "Mozilla/5.0";
-	private String host = "http://192.168.1.104:8080", url="/serverAutobus/Provola";
+	private String host = "http://192.168.1.4:8080", url="/serverAutobus/ServletTrovaPercorsiAutobus";
 	private String cod="";
 	private String indirizzo="";
 	private String data="";
 	private String ora="";
-	private String type="";
+	private String ar="";
+	private String indlat="";
+	private String indlon="";
+	
+	
 	
 	
 	JSONObject jsout = new JSONObject();
@@ -71,25 +77,20 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 		indirizzo= j.getString("indirizzo");
 		data= j.getString("data");
 		ora= j.getString("ora");
-		type= j.getString("type");
+		ar=j.getString("ar");
+		indlat=j.getString("indlat");
+		indlon=j.getString("indlon");
 		
-		System.out.println("risultato servlet prova: "+cod+" "+data+" "+ora+" "+type+" "+indirizzo);
+		//System.out.println("risultato servlet prova: "+cod+" "+data+" "+ora+" "+indirizzo+" "+ar+" "+indlat+" "+indlon);
 		}
 		catch (Exception e) {e.printStackTrace();
 			// TODO: handle exception
-		}
-		
-		
-		// QUERY: CERCHIAMO INDIRIZZO PARTENZA, DESTINAZIONE, DATA E ORA RIGUARDANTE QUEL CODICE
-		
-		
-		
-		
+		}		
 		
 		// MANDIAMO I DATI AL SERVER AUTOBUS 
 		SecureRandom sec = new SecureRandom();
 		String urlemail="", codreg="";
-		urlemail = host+url+"?cod="+cod;
+		urlemail = host+url+"?ar="+ar+"&data="+data+"&ora="+ora+"&indlat="+indlat+"&indlon="+indlon;
 		URL obj = new URL(urlemail);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -117,14 +118,37 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 		
 		//INVIAMO LA RISPOSTA ALL'APP 
 		//print result
-		System.out.println(response1.toString());
+		//System.out.println(response1.toString());
 		try {
-			jsout.put("cod", response1.toString());
+			
+			JSONObject js = new JSONObject(response1.toString());
+			System.out.println("jssssssssss  "+js.toString());
+			if(js.toString().equals("{}")) {
+			response.getWriter().write("niente");
+			}
+			else {
+			JSONArray codPercorsi=js.getJSONArray("codPercorsi");
+			JSONArray dataPercorsi= js.getJSONArray("dataPercorsi");
+			JSONArray oraArrivoPercorsi=js.getJSONArray("oraArrivo");
+			JSONArray oraPartenzaPercorsi=js.getJSONArray("oraPartenza");
+			JSONArray numeroPullman=js.getJSONArray("numero");
+
+
+			//System.out.println("eeeeeeee: "+codPercorsi.getString(0));
+			
+			jsout.put("codPercorsi", codPercorsi);
+			jsout.put("dataPercorsi", dataPercorsi);
+			jsout.put("oraArrivo", oraArrivoPercorsi);
+			jsout.put("oraPartenza", oraPartenzaPercorsi);
+			jsout.put("numero", numeroPullman);
+			response.getWriter().write(jsout.toString());
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		response.getWriter().write(jsout.toString());
+	
+
 		
 		
 		
