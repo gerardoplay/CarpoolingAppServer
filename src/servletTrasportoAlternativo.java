@@ -55,7 +55,7 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		// PRENDIAMO IL CODICE CHE ARRIVA DALL'APP
+		// PRENDIAMO I DATI CHE ARRIVANO DALL'APP
 		queryDB qb = new queryDB();
 	
 		StringBuilder sb = new StringBuilder();
@@ -122,7 +122,7 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 		try {
 			
 			JSONObject js = new JSONObject(response1.toString());
-			System.out.println("jssssssssss  "+js.toString());
+			//System.out.println("jssssssssss  "+js.toString());
 			if(js.toString().equals("{}")) {
 			response.getWriter().write("niente");
 			}
