@@ -56,6 +56,8 @@ import org.json.JSONException;
 			JSONArray jsar = new JSONArray();
 			JSONArray jsindlat = new JSONArray();
 			JSONArray jsindlon= new JSONArray();
+			JSONArray jsora = new JSONArray();
+
 			
 			JSONObject js = new JSONObject();
 			
@@ -99,6 +101,7 @@ import org.json.JSONException;
 				 jsdestinazione.put(rs.getString("indirizzodest"));
 				 jsdata.put(rs.getString("data"));
 				 jsar.put(rs.getString("ar"));
+				 jsora.put(rs.getString("orario"));
 				 rs2 = qb.query("select * from richiesta where nomeutenterichiedente='"+username+"' and codpercorso='"+rs.getString("cod")+"'");
 				 while(rs2.next()) {
 				 jsindlat.put(rs2.getString("indlat"));
@@ -122,6 +125,8 @@ import org.json.JSONException;
 					js.put("ar", jsar);
 					js.put("indlat", jsindlat);
 					js.put("indlon", jsindlon);
+					js.put("ora", jsora);
+
 				
 			}
 		

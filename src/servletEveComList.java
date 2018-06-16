@@ -54,7 +54,8 @@ public class servletEveComList extends HttpServlet {
 			JSONArray perautista = new JSONArray();
 			JSONArray jscoddd = new JSONArray();
 			JSONArray jsperautista2 = new JSONArray();
-			
+			JSONArray jsperstato = new JSONArray();
+	        JSONArray jsperstato2 = new JSONArray();
 			
 			
 			//JSONArray perstato = new JSONArray();
@@ -63,6 +64,9 @@ public class servletEveComList extends HttpServlet {
 			JSONArray ricdata = new JSONArray();
 			JSONArray ricorario = new JSONArray();
 			JSONArray riccod = new JSONArray();
+			JSONArray andRit = new JSONArray();
+			JSONArray indlat = new JSONArray();
+			JSONArray indlon = new JSONArray();
 			//JSONArray ricstato = new JSONArray();
 			JSONObject js = new JSONObject();
 
@@ -86,18 +90,21 @@ public class servletEveComList extends HttpServlet {
 						//per.put(rs1.getString("data")+": "+rs1.getString("indirizzopart"));
 						percod.put(rs1.getInt("cod"));
 						jsperautista2.put(rs1.getString("nomeutente"));
+						jsperstato2.put(rs1.getString("stato"));
 					}
 				}
 				ResultSet rsdata;
 				while(rs.next()){
 					GregorianCalendar gc = new GregorianCalendar();
 					String codp = rs.getString("codpercorso");
-					rsdata= db.query("select data,nomeutente,cod, orario from percorso where cod='"+codp+"'");
+					rsdata= db.query("select data,nomeutente,cod, orario,stato,ar from percorso where cod='"+codp+"'");
 					rsdata.next();
 					String dateper = rsdata.getString("data"),
 							orarioper = rsdata.getString("orario"),
 							autista=rsdata.getString("nomeutente"),
-                            coddd=rsdata.getString("cod");
+                            coddd=rsdata.getString("cod"),
+                            ar=rsdata.getString("ar"),
+                            stato=rsdata.getString("stato");
 					
 					GregorianCalendar gcper = new GregorianCalendar(Integer.parseInt(dateper.substring(6,10)),
 							Integer.parseInt(dateper.substring(3,5))-1, 
@@ -111,6 +118,11 @@ public class servletEveComList extends HttpServlet {
 						jscoddd.put(coddd);
 						//ric.put(dateper+": "+rs.getString("indirizzo"));
 						riccod.put(rs.getInt("cod"));
+						indlat.put(rs.getDouble("indlat"));
+						indlon.put(rs.getDouble("indlon"));
+						andRit.put(ar);
+						jsperstato.put(stato);
+
 					}
 				}
 			} catch (SQLException e) {
@@ -125,7 +137,8 @@ public class servletEveComList extends HttpServlet {
 				js.put("perdata", perdata);				
 				js.put("perorario", perorario);
 				js.put("perautista",jsperautista2);
-				
+				js.put("perstato",jsperstato);
+				js.put("perstato2",jsperstato2);
 				
 				
 				js.put("autista", perautista);
@@ -134,6 +147,9 @@ public class servletEveComList extends HttpServlet {
 				js.put("riccodici", riccod);
 				js.put("ricdata", ricdata);
 				js.put("ricorario", ricorario);
+				js.put("ar", andRit);
+				js.put("indlat",indlat);
+				js.put("indlon",indlon);
 				
 				
 				response.getWriter().write(js.toString());

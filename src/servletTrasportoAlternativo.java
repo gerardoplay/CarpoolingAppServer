@@ -19,8 +19,6 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String USER_AGENT = "Mozilla/5.0";
 	private String host = "http://192.168.1.4:8080", url="/serverAutobus/ServletTrovaPercorsiAutobus";
-	private String cod="";
-	private String indirizzo="";
 	private String data="";
 	private String ora="";
 	private String ar="";
@@ -73,8 +71,6 @@ public class servletTrasportoAlternativo  extends HttpServlet {
 		try {
 	   
 		j= new JSONObject(sb.toString());
-		cod = j.getString("cod");
-		indirizzo= j.getString("indirizzo");
 		data= j.getString("data");
 		ora= j.getString("ora");
 		ar=j.getString("ar");
